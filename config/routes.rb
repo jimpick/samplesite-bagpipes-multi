@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :members
+  map.resources :topics, :has_many => [:messages]
+  map.new_reply 'topics/:topic_id/parent/:parent_id', :controller => 'messages', :action => 'new'
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

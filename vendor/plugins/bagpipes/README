@@ -1,0 +1,34 @@
+Bagpipes
+========
+
+Bagpipes is a resourceful plugin, meaning that it provides a bundled set of resources (ala REST) for a Rails application. In particular, installing Bagpipes gives you access to the resources required for basic forum functions—topics, messages, and members.
+
+At present, member management is ... minimal. You'll have to add the first administrator from the console, like this:
+  
+  > u = User.find(1)
+  > u.create_member :name => "Name", :administrator => true
+  
+After that, you can log in and go to /members to add more.
+  
+Only administrators can create topics, and only members can create messages. Anyone can view the forum, however.
+
+Like any resourceful plugin, this should be easily customizable for your specific needs.
+
+Example
+=======
+
+  rake bagpipes:install
+
+The installer will prompt you for the name of your user model.
+
+Integration
+===========
+You'll need some sort of authentication scheme that provides the following hooks in the controller:
+  logged_in?
+  current_user
+
+The easiest way to take care of this is to install the restful authentication plugin.
+
+Finally, you'll need to update the user_email= method in the Member model so that it returns a valid user/account/whatever model when given an email address.
+
+Copyright (c) 2008 Ben Scofield of Viget Labs, released under the MIT license
