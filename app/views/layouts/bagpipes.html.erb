@@ -9,7 +9,19 @@
 
 <body>
   <div id="header">
-    <%= link_to 'Bagpipes', topics_path %>
+      <%= link_to 'Bagpipes', topics_path %>
+      <ul>
+          <% if logged_in? %>
+          <li><b><%=h current_user.login %></b></li>
+          <li><%= link_to 'Logout', logout_path %></li>
+          <% else %>
+          <li><%= link_to 'Login', login_path %></li>
+          <li><%= link_to 'Signup', signup_path %></li>
+          <% end %>
+      </ul>
+      <%= flash_messages %>
+    </div>
+
   </div>
 
   <div id="main">
