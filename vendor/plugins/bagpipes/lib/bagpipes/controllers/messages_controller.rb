@@ -45,7 +45,10 @@ module Bagpipes
 
       private
       def require_topic
-        @topic = Topic.find(params[:topic_id])
+        @topic = Topic.find(params[:topic_id], :conditions => {
+            :forum_id => current_forum.id,
+            :forum_type => current_forum.class.to_s
+        })
       rescue ActiveRecord::RecordNotFound
         flash[:error] = "This parent topic no longer exists"
         redirect_to topics_path
