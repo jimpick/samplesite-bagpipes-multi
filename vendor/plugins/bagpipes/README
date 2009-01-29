@@ -1,5 +1,5 @@
-Bagpipes
-========
+Bagpipes (with multisite modification)
+======================================
 
 Bagpipes is a resourceful plugin, meaning that it provides a bundled set of resources (ala REST) for a Rails application. In particular, installing Bagpipes gives you access to the resources required for basic forum functions—topics, messages, and members.
 
@@ -14,6 +14,15 @@ Only administrators can create topics, and only members can create messages. Any
 
 Like any resourceful plugin, this should be easily customizable for your specific needs.
 
+The multisite modification also uses a polymorphic association for its idea of a +forum+.  This might be associated with a site record in your application.
+
+Other Plugins
+=============
+
+The account_location plugin can be used to create a multisite setup, following the instructions here:
+
+  http://railstips.org/2006/11/13/building-a-multi-site-supported-application
+
 Example
 =======
 
@@ -23,6 +32,7 @@ The installer will prompt you for the name of your user model.
 
 Integration
 ===========
+
 You'll need some sort of authentication scheme that provides the following hooks in the controller:
   logged_in?
   current_user
@@ -31,4 +41,33 @@ The easiest way to take care of this is to install the restful authentication pl
 
 Finally, you'll need to update the user_email= method in the Member model so that it returns a valid user/account/whatever model when given an email address.
 
+=== Multisite Integration
+
+In your site model:
+    has_many :topics, :as => :forum
+
+If you are using the account_location plugin, you can add
+the following to the application controller:
+
+    include AccountLocation
+
+    before_filter :find_current_site
+    helper_method :current_site
+    attr_reader   :current_site
+    helper_method :current_forum
+    attr_reader   :current_forum
+
+    private
+
+      def find_current_site
+        @current_site = Site.find_by_subdomain(account_subdomain)
+        @current_forum = @current_site
+      end
+
+The modified 'topics' controller uses whatever is returned by
+'current_forum' to tie a topic to a particular site/forum/etc.
+
+
 Copyright (c) 2008 Ben Scofield of Viget Labs, released under the MIT license
+Modifications Copyright (c) 2009 Jim Pick <jim@jimpick.com>, released under the MIT license
+
