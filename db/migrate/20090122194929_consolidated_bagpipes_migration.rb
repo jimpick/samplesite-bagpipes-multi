@@ -25,6 +25,8 @@ class ConsolidatedBagpipesMigration < ActiveRecord::Migration
     create_table :topics do |t|
       t.string   :title
       t.text     :description
+      t.integer  :forum_id, :null => false
+      t.string   :forum_type, :null => false
       t.datetime :created_at
       t.datetime :updated_at
     end
