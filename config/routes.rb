@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :sites
+
   map.resources :members
   map.resources :topics, :has_many => [:messages]
   map.new_reply 'topics/:topic_id/parent/:parent_id', :controller => 'messages', :action => 'new'

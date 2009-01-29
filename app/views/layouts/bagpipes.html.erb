@@ -20,6 +20,12 @@
           <% end %>
       </ul>
       <%= flash_messages %>
+      <% if current_site %>
+      <p>Debug current_site: <%= current_site.subdomain %></p>
+      <p>Debug current_forum: <%= current_forum.id %></p>
+      <% else %>
+      <p>Debug current_site: None</p>
+      <% end %>
     </div>
 
   </div>
@@ -30,6 +36,13 @@
     <div id="content">
       <%= yield %>
     </div>
+  </div>
+
+  <div id="bottom_nav">
+    <ul>
+      <li><a href="http://pennyminder.example.com:3000/">PennyMinder</a></li>
+      <li><a href="http://ymbd.example.com:3000/">Your Money by Design</a></li>
+    </ul>
   </div>
 
   <div id="footer">
