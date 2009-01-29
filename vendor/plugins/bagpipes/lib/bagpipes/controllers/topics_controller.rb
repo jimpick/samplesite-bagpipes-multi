@@ -11,15 +11,20 @@ module Bagpipes
 
       # TODO: optionally, paginate
       def index
-        @topics = Topic.by_title.all
+        @topics = Topic.by_title.find(:all, :conditions => {
+            :forum_id => current_forum.id,
+            :forum_type => current_forum.class.to_s
+          })
       end
 
       def new
         @topic = Topic.new
+        @topic.forum = current_forum
       end
 
       def create
         @topic = Topic.new(params[:topic])
+        @topic.forum = current_forum
 
         if @topic.save
           flash[:notice] = "The topic \"#{@topic.title}\" has been created"

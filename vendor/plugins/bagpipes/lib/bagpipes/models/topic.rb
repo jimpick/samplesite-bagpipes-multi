@@ -4,8 +4,11 @@ module Bagpipes
       def self.included(base)
         base.class_eval do
           validates_presence_of :title
+          validates_presence_of :forum_id
+          validates_presence_of :forum_type
 
           has_many :messages, :dependent => :destroy
+          belongs_to :forum, :polymorphic => true
 
           named_scope :by_title, :order => 'title ASC'
         end
